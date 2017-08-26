@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dir="/home/facom/Documents/Teste/GIT/gitDiff"
+dir="/home/facom/Documents/Teste/GIT/TESTE/gitDiff"
 
 #entra em cada projeto do Git
 while read -r pasta || [[ -n "$pasta" ]] 
@@ -28,11 +28,11 @@ do
 			echo $commit
 		fi
 
-		if echo "$line" | egrep "^Date:[ ]*"
+		if echo "$line" | egrep "^Date:[ ]*" # [ ] Sun Mar 20 14:55:25 2016 +0100
 		then 
 			var=$(echo $line | awk -F ":[ ]" '{print $1,$2,$3,$4,$5,$6}')   
 			set -- $var
-			data=$3", "$6
+			data=$4", "$3", "$6 # day/month/year
 			echo $data
 		fi
 
@@ -40,8 +40,9 @@ do
 		then 
 			if [ "$lineImport" != "" ];
 			then
-				echo "$projeto$path, $lineImport" >> $dir/MaisImportinline/$pasta
-				echo " $projeto$path, $lineImport"
+				linhasemVirgula=$(echo $lineImport | sed 's/,$//')
+				echo "$linhasemVirgula" >> $dir/MaisImportinline/$pasta
+				echo "Sem Vírgula: $linhasemVirgula"
 				lineImport=""
 			fi
 
@@ -49,24 +50,34 @@ do
 			set -- $var2
 
 			path=$(echo $4 | sed 's/^b//') #echo x/asclkc | sed 's/^x//' >> /asclkc
-			echo "$path"
+			#aux=$(echo $path | sed 's/.java$//') 
+
+			echo "Path : $path"
 		fi
 
 		if echo "$line" | egrep "^[+]import[ ]*.*;$" #+import cz.msebera.android.httpclient.client.methods.HttpOptions;
 		then
-			importtext=$(echo "$line" | sed 's/^[+]import[ ]//' ) #remover +import
-			filtro=$(echo "$importtext" | sed 's/;$//' ) # saids: cz.msebera.android.httpclient.client.methods.HttpOptions
-			#echo $importtext
-			lineImport+="$filtro, " #imports+="$filtro, "
-			#echo "$projeto$path, $commit, $data, $importtext"
-			echo "$projeto$path, $commit, $data, $filtro" >> $dir/Imports/$pasta #/home/facom/Documents/Teste/GIT/gitDiff/Imports
+			
+			var1=$(echo $line | awk -F " " '{print $1,$2,$3}')   
+			set -- $var1
+
+			if [ "" == "$3" ]; #não pega os static
+				then
+				
+				importtext=$(echo "$line" | sed 's/^[+]import[ ]//' ) #remover +import
+				filtro=$(echo "$importtext" | sed 's/;$//' ) # saids: cz.msebera.android.httpclient.client.methods.HttpOptions
+				#echo $importtext
+				lineImport+="$filtro, " #imports+="$filtro, "
+				#echo "$projeto$path, $commit, $data, $importtext"
+				echo "$projeto$path, $commit, $data, $filtro" >> $dir/Imports/$pasta #/home/facom/Documents/Teste/GIT/gitDiff/Imports
+			fi
 		fi
 
 
-	done<"$pasta"
+	done<"$dir/$pasta"
 
 	echo "FIM de Pegar os IMPORTS do $pasta"
 
-done<"todosGitDiff.txt"
+done<"$dir/teste-Diff.txt"
 
 

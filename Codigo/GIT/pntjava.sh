@@ -12,6 +12,6 @@ while read -r line || [[ -n "$line" ]]
 		i=$(($i+1))
 		echo $i
 		#cd $dir/$line
-		find $dir/$line -name "*.java" >> /home/facom/Documents/GIT/Projetos/todospntJava/$line.txt	
+		find $dir/$line -name "*.java" > $dir/todospntJava/$line.txt	
 		
-	done < "tudo.txt"
+	done < "teste.txt"

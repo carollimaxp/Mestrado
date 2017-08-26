@@ -1,12 +1,11 @@
 #!/bin/bash
-
+dir="/home/facom/Documents/GIT/Projetos"
 #para substituir ; por , e remover , do final  tr ';' ',' | sed 's/[;]$//' 
 #remover a primeira coluna
 
 #entra em cada projeto do Git
 while read -r pasta || [[ -n "$pasta" ]] 
 do 
-dir="/home/facom/Documents/GIT/Projetos"
 	i=$(($i+1))
 	echo $pasta,$i
 
@@ -32,7 +31,7 @@ dir="/home/facom/Documents/GIT/Projetos"
 					#remover o ;
 					filtro=$(echo "$2" | sed 's/;$//' )
 					imports+="$filtro,"
-					echo "$filtro," >> /home/facom/Documents/GIT/Projetos/imports/$pasta.txt
+					echo "$filtro" >> $dir/imports/$pasta.txt
 				#else
 					#remover o ;
 					#filtro1=$(echo "$3" | sed 's/;$//' )
@@ -45,12 +44,12 @@ dir="/home/facom/Documents/GIT/Projetos"
 
 		
 		semvirg=$(echo "$imports" | sed 's/,[ ]$//')
-		echo "$semvirg" >> /home/facom/Documents/GIT/Projetos/imports/importsLinhaJava/$pasta.txt
+		echo "$semvirg" >> $dir/imports/importsLinhaJava/$pasta.txt
 
 	done<"$dir/todospntJava/$pasta.txt" #caminho completo 
 
 	echo "FIM de Pegar os IMPORTS do $pasta"
 
-done<"lista-nome.txt" #nome do projeto
+done<"$dir/teste.txt" #nome do projeto
 
 

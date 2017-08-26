@@ -13,20 +13,21 @@ do
 
 	cat $dir/$pasta.txt | sort | uniq >> $dir/x2.txt # todas as bibliotecas com uma unica repetição
 
-done<"lista-nome.txt" #nome do projeto
+done<"/home/facom/Documents/GIT/Projetos/teste.txt" #nome do projeto
 
 #rm $dir/x1.txt
 
 #cat $dir/*.txt > $dir/projeto.txt
 
 cat $dir/x2.txt | sort | uniq -c > $dir/projeto.txt
-cat $dir/projeto.txt | sort -n -rk1 > $dir/projeto-R.txt
+cat $dir/projeto.txt | sort -n -rk1 > $dir/ResultadoFinal.txt
 
 #cat $dir/projeto.txt | sort | uniq -c > $dir/projeto1.txt
 #cat $dir/projeto1.txt | sort -n -rk1 > $dir/projeto-R.txt
 
 rm $dir/projeto.txt
 rm $dir/x1.txt
+rm $dir/x2.txt
 
 
 #sort -rk4 Contabilizado/tudo-fim.txt > Contabilizado/pronto.txt
