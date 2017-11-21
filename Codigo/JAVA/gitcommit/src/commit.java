@@ -18,7 +18,7 @@ public class commit {
 
         BufferedReader tdsCommitTXT = null;
 
-        tdsCommitTXT = new BufferedReader(new FileReader("/home/facom/Resultados/pop&NaoPOP.txt")); //nome na ordem de pop
+        tdsCommitTXT = new BufferedReader(new FileReader("/home/facom/Resultados/TOP.txt")); //nome na ordem de pop
         //tdsCommitTXT = new BufferedReader(new FileReader("/home/facom/Documents/Teste/GIT/TESTE/gitDiff/FirstImport.txt"));  //arquivo com todos os .txt de todos os primeiros imports de cada API
 
         File resultado2 = new File("/home/facom/Resultados/resultado-M.csv"); // media, api
@@ -112,8 +112,6 @@ public class commit {
 
         dt1 = formarDate(year_fistDay,month_fistDay, day_fistDay,0,0,0,"+0300");
         dt2 = formarDate(year_useDay,month_useDay, day_useDay,0,0,0,"+0300");
-
-
 
 
         return lifeTime(dt1,dt2);
