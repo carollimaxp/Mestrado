@@ -1,9 +1,12 @@
+
 import org.joda.time.*;
 
 import java.io.*;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Import {
 
@@ -11,6 +14,7 @@ public class Import {
     double mediadeDias;
     double mediadeDiasparaImportar;
     double medianavalue;
+    double porcentagemvalue;
     int contador = 0;
     String NomeAPI;
     private double soma,somaP = 0;
@@ -51,9 +55,13 @@ public class Import {
         return this.primeiroCommit;
     }
 
-    public void setNomeAPI(String NomeAPI) {
-        this.NomeAPI = NomeAPI;
+    public void setNomeAPI(String API) {
+        this.NomeAPI = API;
     }
+
+    public void setPorcentagemvalue(double value){ this.porcentagemvalue = value;}
+
+    public double getPorcentagemvalue() { return this.porcentagemvalue; }
 
     public String getNomeAPI() {
         return this.NomeAPI;
@@ -103,9 +111,24 @@ public class Import {
         return somaP;
     }
 
+    public double getMediana() {
+        return this.medianavalue;
+    }
+
+    public double getMedianavalue() {
+        return this.medianavalue;
+    }
+
+    public void setMedianavalue(double value) {
+        this.medianavalue = value;
+    }
+
     public void setSomaPorcentagem(DateTime primeiroCommit, DateTime ultimoCommit) throws ParseException {
         double aux = conversaoParaDias(primeiroCommit,ultimoCommit); //lifetime
-        setSomaP(getSomaP() + getDias()/aux);
+
+        setPorcentagemvalue(getDias()/aux);
+
+        setSomaP(getSomaP() + getPorcentagemvalue());
     }
 
     public double getMediadeDiasparaImportar() throws ParseException {
@@ -258,62 +281,64 @@ public class Import {
         }
     }
 
+    public void setMediana(ArrayList diasImport) throws ParseException {
+
+        ArrayList auxList = diasImport;
+        Collections.sort(auxList);
+
+        int length = auxList.size();
+        int middle = length/2;
+
+        //System.out.println(auxList);
+
+        if ( length % 2 == 0)
+        {
+            double left = (Double) auxList.get(middle - 1);
+            double right = (Double) auxList.get(middle - 1);
+            setMedianavalue((left + right) / 2);
+        }
+        else
+        {
+            setMedianavalue((Double) auxList.get(middle));
+        }
+
+
+        NumberFormat formato = NumberFormat.getInstance();
+        formato.setMaximumFractionDigits(3);
+
+        String a1 = formato.format( getMedianavalue() );  //media das porcentagens
+        Double b = formato.parse(a1).doubleValue();
+
+        setMedianavalue(b);
+    }
+
     public void print() throws IOException {
 
-        //File resultado1 = new File("/home/facom/Resultados/TOP_imports.csv");
+        File resultado1 = new File("/home/facom/Resultados/TOP_imports.csv");
         //File resultado1 = new File("/home/facom/Resultados/INTER_imports.csv");
-        File resultado1 = new File("/home/facom/Resultados/BOTTOM_imports_1.csv");
+        //File resultado1 = new File("/home/facom/Resultados/BOTTOM_imports.csv");
+        //File resultado1 = new File("/home/facom/Resultados/TOP_parcial.txt");
         PrintStream arqC = new PrintStream(resultado1);
         System.setOut(arqC);
 
-        System.out.println("api,avg, mediana,per,group");
+        System.out.println("api,avg,median,per,median_per,group");
     }
 
     public String getCaminhoApiName(){
-        //return "/home/facom/Documents/Teste/GIT/Projetos/gitDiff/FirstImport/TOP/";
+        return "/home/facom/Documents/Teste/GIT/Projetos/gitDiff/FirstImport/TOP/";
         //return "/home/facom/Documents/Teste/GIT/Projetos/gitDiff/FirstImport/INTER/";
-        return "/home/facom/Documents/Teste/GIT/Projetos/gitDiff/FirstImport/BOTTOM/";
+        //return "/home/facom/Documents/Teste/GIT/Projetos/gitDiff/FirstImport/BOTTOM/";
     }
 
-    public void printResultado() throws ParseException {
-        //System.out.println(name.getNomeAPI() + /*", " + name.getSoma() +*/ ", " + name.getMediadeDiasparaImportar() + ", " + name.getMediaPorcentagem()+ ", TOP");
-        //System.out.println(name.getNomeAPI() + /*", " + name.getSoma() +*/ ", " + name.getMediadeDiasparaImportar() + ", " + name.getMediaPorcentagem()+ ", INTER");
-        System.out.println( getNomeAPI() + /*", " + name.getSoma() +*/ "," +  getMediadeDiasparaImportar() + "," + getMediana() + "," + getMediaPorcentagem()+ ",BOTTOM");
+    public void printResultado(double medianaI, double mediaanaP) throws ParseException {
+        System.out.println( getNomeAPI() + /*", " + name.getSoma() +*/ "," +  getMediadeDiasparaImportar() + ","
+                + medianaI + "," + getMediaPorcentagem() + "," + mediaanaP + ",TOP" /*TOP,INTER, BOTTOM*/ );
     }
 
     public File getProject() throws FileNotFoundException {
-        //File arq = new File("/home/facom/Documents/Teste/GIT/Projetos/gitDiff/FirstImport/top_filtrado.txt");
+        File arq = new File("/home/facom/Documents/Teste/GIT/Projetos/gitDiff/FirstImport/top_filtrado.txt");
         //File arq = new File("/home/facom/Documents/Teste/GIT/Projetos/gitDiff/FirstImport/inter_filtrado.txt");
-        File arq = new File("/home/facom/Documents/Teste/GIT/Projetos/gitDiff/FirstImport/bottom_filtrado.txt");
+        //File arq = new File("/home/facom/Documents/Teste/GIT/Projetos/gitDiff/FirstImport/bottom_filtrado.txt");
         return arq;
-    }
-
-
-    public void setMediana(ArrayList diasImport) {
-
-        int a = diasImport.size();
-
-        if( a%2 == 0){
-
-            setMedianavalue( diasImport.indexOf(a/2) + diasImport.indexOf(a/2 + 1)); //par
-            setMedianavalue(getMedianavalue()/2);
-            System.out.println(a + ", "+ getMedianavalue() );
-        }
-        else {
-            setMedianavalue(diasImport.indexOf(a/2)); //impar
-            System.out.println(a + ", "+ getMedianavalue() );
-        }
-    }
-
-    private double getMediana() {
-        return medianavalue;
-    }
-
-    public double getMedianavalue() {
-        return medianavalue;
-    }
-
-    public void setMedianavalue(double medianavalue) {
-        this.medianavalue = medianavalue;
     }
 }

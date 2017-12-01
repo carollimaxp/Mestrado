@@ -11,13 +11,14 @@ public class Main {
         Import name = new Import();
 
         ArrayList diasImport = null;
+        ArrayList diasImportPorcentagem = null;
 
         BufferedReader projectName = null;
         //projectName = new BufferedReader(new FileReader("/home/facom/Documents/Teste/GIT/Projetos/gitDiff/FirstImport/top_filtrado.txt"));
         //projectName = new BufferedReader(new FileReader("/home/facom/Documents/Teste/GIT/Projetos/gitDiff/FirstImport/inter_filtrado.txt"));
         projectName = new BufferedReader(new FileReader(name.getProject()));
 
-        //name.print();
+        name.print();
 
         while ((api = projectName.readLine()) != null)  //o nome do arquivo com git log de cada arquivo de cada projeto
         {
@@ -26,6 +27,7 @@ public class Main {
             apiName = new BufferedReader(new FileReader( name.getCaminhoApiName() + api));
 
             diasImport = new ArrayList();
+            diasImportPorcentagem = new ArrayList();
 
             while ((linhaArq = apiName.readLine()) != null)  //o nome do arquivo com git log de cada arquivo de cada projeto
             {
@@ -52,12 +54,26 @@ public class Main {
 
                 name.setSomaPorcentagem(name.getPrimeiroCommit(), name.getUltimoCommit());
 
+                diasImportPorcentagem.add(name.getPorcentagemvalue());
+
                 name.setContador(1);
             }
 
+            //System.out.println(name.getNomeAPI());
+
+            //System.out.println("Import:" + name.getContador() );
             name.setMediana(diasImport);
 
-            name.printResultado();
+            double medianaI = name.getMedianavalue();
+
+            //System.out.println("Porcentagem:" + name.getContador() );
+            name.setMediana(diasImportPorcentagem);
+
+            double mediaanaP = name.getMedianavalue();
+
+            //System.out.println();
+
+            name.printResultado(medianaI,mediaanaP);
 
             name.setContador(0);
             name.setSoma(0);
