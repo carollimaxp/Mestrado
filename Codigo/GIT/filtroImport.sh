@@ -14,6 +14,11 @@ do
 		then
 			echo "$line"
 	    	echo "$line" >> $dir/filtrado/$i.txt
+	    
+		if echo "$imports" | egrep "[ ]$line,"
+		then
+			echo "$line"
+	    	echo "$line" >> $dir/filtrado/$i.txt
 	    fi
 	    
 	done<"$dir/todosImports.txt"

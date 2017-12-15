@@ -1,13 +1,16 @@
 #!/bin/bash
+
+#dir="/home/facom/Documents/GIT/Bibliotecas"
 dir="/home/facom/Documents/GIT/Projetos"
 
 while read -r pasta || [[ -n "$pasta" ]] 
 	do
-		echo "$pasta"
+		i=$(($i+1))
+		echo "$pasta, $i"
 		cd $dir/$pasta 
-		git log --full-diff -p --raw --minimal > /home/facom/Documents/Teste/GIT/TESTE/gitDiff/$pasta.txt #historico
-		#git log --pretty=format:%H,%an,%ai $caminho/$pjava  >> $dir/$projeto/$nomeJ.txt #ISO8601  2015-11-17 17:50:01 +0100
+		#git log --full-diff -p --raw --minimal > /home/facom/Documents/Teste/GIT/Tools/gitDiff/$pasta.txt #historico
+		git log --first-parent --full-diff -p --raw --minimal > /home/facom/Documents/Teste/GIT/Projetos/gitDiff/$pasta.txt #historico
 
-	done < "$dir/teste.txt" 
-	#done < "cont-lista2.txt"
+	#done < "$dir/bib.txt" 
+	done < "/home/facom/Documents/tudo9.txt"
 	#done < "cont-lista3.txt"

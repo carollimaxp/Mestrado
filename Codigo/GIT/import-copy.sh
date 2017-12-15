@@ -57,6 +57,6 @@ do
 	echo "FIM de Pegar os IMPORTS do $pasta"
 
 #done<"$dir/bib.txt" #nome das Bibliotecas
-done < "/home/facom/Documents/tudo8.txt" #nome dos Projeto
+done < "/home/facom/Documents/tudo9.txt" #nome dos Projeto
 
 

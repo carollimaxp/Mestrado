@@ -26,15 +26,22 @@ public class LeiaCVS
     
     public static void main(String[] args) throws IOException 
     {
-        LeiaCVS obj = new LeiaCVS();
-        obj.run();
+        String arquivo="/home/facom/Documents/Teste/PMD/Tools/tudo.txt";
+
+        br = new BufferedReader(new FileReader(arquivo));
+        while ((linha = br.readLine()) != null) {
+            String[] pais = linha.split("."); //jdk7u-jdk.txt
+
+            LeiaCVS obj = new LeiaCVS();
+            obj.run(pais[0]); //jdk7u-jdk
+        }
     }
     private float medClass;
 
-    private void run() throws IOException 
+    private void run(String pathDoCSV) throws IOException
     {
         String dir="/home/facom/Documents/Teste/PMD/";
-        File arq = new File(dir +"RxJava.csv");
+        File arq = new File(dir + pathDoCSV + ".csv");
         arq.createNewFile();
         PrintStream myPrintStream; 
         myPrintStream = new PrintStream(arq);

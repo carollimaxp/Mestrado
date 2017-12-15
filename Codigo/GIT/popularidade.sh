@@ -4,16 +4,18 @@
 #em cada projeto dar o sort e uniq; depois junta todos os projeto em seguida sort e uniq
 dir="/home/facom/Documents/GIT/Projetos/imports"
 
+#rm  $dir/ResultadoFinal.txt
+
 while read -r pasta || [[ -n "$pasta" ]] 
 do
 
 	cat $dir/$pasta.txt | sort | uniq -c > $dir/x1.txt
 	#cat $dir/$pasta.txt | sort | uniq >> $dir/contabilizado/unico_$pasta.txt
-	cat $dir/x1.txt | sort -n -rk1 > $dir/contabilizado/$pasta.txt
+	cat $dir/x1.txt | sort -n -rk1 > $dir/cont-v2/$pasta.txt
 
 	cat $dir/$pasta.txt | sort | uniq >> $dir/x2.txt # todas as bibliotecas com uma unica repetição
 
-done<"/home/facom/Documents/GIT/Projetos/teste.txt" #nome do projeto
+done<"/home/facom/Documents/projetos1.txt" #nome do projeto
 
 #rm $dir/x1.txt
 

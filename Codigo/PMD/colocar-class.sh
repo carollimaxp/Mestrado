@@ -2,6 +2,8 @@
 
 dir="/home/facom/Documents/PMD"
 
+find $dir/*.txt > text.txt
+
 while read -r lin || [[ -n "$lin" ]] 
 	do
 			

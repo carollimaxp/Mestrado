@@ -1,7 +1,8 @@
 #!/bin/bash
 
+#dir="/Volumes/CarolLima1/Mestrado/gitDiff"
 dir="/home/facom/Documents/Teste/GIT/Projetos/gitDiff"
-#dir="/home/facom/Documents/Teste/GIT/Tools/gitDiff"
+destino="/home/facom/Documents/Teste/GIT"
 
 #entra em cada projeto do Git
 while read -r pasta || [[ -n "$pasta" ]] 
@@ -13,8 +14,6 @@ do
 
 	i=$(($i+1))
 	echo $projeto,$i
-
-	pasta=$pasta.txt
 
 	lineImport=""
 
@@ -28,7 +27,7 @@ do
 			var1=$(echo $line | awk -F " " '{print $1,$2}')   
 			set -- $var1	
 			commit=$2
-			echo $commit
+			#echo $commit
 		fi
 
 		if echo "$line" | egrep "^Date:[ ]*" # [ ] Sun Mar 20 14:55:25 2016 +0100
@@ -36,17 +35,16 @@ do
 			var=$(echo $line | awk -F ":[ ]" '{print $1,$2,$3,$4,$5,$6}')   
 			set -- $var
 			data=$4", "$3", "$6 # day/month/year
-			echo $data
+			#echo $data
 		fi
 
-		if echo "$line" | egrep "^diff[ ]--git[ ]*.java$" # diff --git a/x b/x
+		if echo "$line" | egrep "^diff[ ]--git[ ]*.*.java$" # diff --git a/x b/x
 		then 
 			if [ "$lineImport" != "" ];
 			then
 				linhasemVirgula=$(echo $lineImport | sed 's/,$//')
 				echo "$linhasemVirgula" >> $dir/MaisImportinline/$pasta
-				echo "Projeto --> $projeto"
-				echo "Sem Vírgula: $linhasemVirgula"
+				#echo "Sem Vírgula: $linhasemVirgula"
 				lineImport=""
 			fi
 
@@ -83,7 +81,8 @@ do
 
 	echo "FIM de Pegar os IMPORTS do $projeto"
 
-done < "/home/facom/Documents/tudo1.txt"
+done < "$destino/Teste_import-5.txt"
 
-echo "Tudo 1"
+echo "Teste Imports-5"
 #done<"$dir/bib-Diff.txt"
+

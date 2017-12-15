@@ -6,8 +6,6 @@ dir="/home/facom/Documents/GIT/Bibliotecas"
 #dir_teste="/home/facom/Documents/Teste/GIT/Tools"
 dir_teste="/home/facom/Documents/Teste/GIT/Bibliotecas"
 
-des="/home/facom/Documents"
-
 #find $dir/todospntJava/*.txt > "$dir/bib-pntJ.txt"
 pnt="/home/facom/Documents/GIT/Bibliotecas/todospntJava"
 
@@ -69,7 +67,7 @@ while read -r jva || [[ -n "$jva" ]]
 		done < "$jva" 
 
 	#done < "tudo5.txt"
-done < "$des/resto.txt"
+done < "resto1.txt"
 	#done < "$dir/bib-pntJ.txt"
 
-	echo " **** GitLog Jack **** "
+	echo " **** GitLog mongo-java-driver **** "
